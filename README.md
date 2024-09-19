@@ -16,4 +16,4 @@ eficiente de datos y su integración fluida con aplicación frontend.
 - Spring Boot
 - Spring Data JPA
 
-&copy; 2024 [Restyle](https://sw53-metasoft.github.io/ReStyle-Landing-Page/)
+&copy; 2024 [Restyle](https://mondongodev.github.io/restyle-landing-page/)
