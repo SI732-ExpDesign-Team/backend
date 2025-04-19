@@ -16,4 +16,4 @@ eficiente de datos y su integración fluida con aplicación frontend.
 - Spring Boot
 - Spring Data JPA
 
-&copy; 2024 [Restyle](https://mondongodev.github.io/restyle-landing-page/)
+&copy; 2024 [Restyle](https://si732-expdesign-team.github.io/landing-page/)
