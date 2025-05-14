@@ -15,8 +15,8 @@ import java.util.List;
  */
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PUBLIC) // Asegura visibilidad pública
-@AllArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PUBLIC) // Asegura visibilidad pública
+//@AllArgsConstructor
 @With
 public class Role {
     @Id
