@@ -110,5 +110,68 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         }
         return this;
     }
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getPaternalSurname() {
+		return paternalSurname;
+	}
+	public void setPaternalSurname(String paternalSurname) {
+		this.paternalSurname = paternalSurname;
+	}
+	public String getMaternalSurname() {
+		return maternalSurname;
+	}
+	public void setMaternalSurname(String maternalSurname) {
+		this.maternalSurname = maternalSurname;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+    public Long getId() {
+    	return super.getId();
+    }
 
 }

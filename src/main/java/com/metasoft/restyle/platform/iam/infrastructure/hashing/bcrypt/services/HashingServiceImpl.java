@@ -22,4 +22,15 @@ public class HashingServiceImpl implements BCryptHashingService {
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
+        
+    @Override
+    public String encode(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
+    }
+
+    @Override
+    public boolean matches(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
 }

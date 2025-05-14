@@ -71,4 +71,49 @@ public class Review extends AbstractAggregateRoot<Review> {
     public Integer getRating() {
         return rating.getRating();
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public void setContractorId(ContractorId contractorId) {
+		this.contractorId = contractorId;
+	}
+
+	public void setProjectId(ProjectId projectId) {
+		this.projectId = projectId;
+	}
+
+	public void setRating(Rating rating) {
+		this.rating = rating;
+	}
+    
 }
