@@ -19,7 +19,7 @@ public class RemodelerCommandServiceImpl implements RemodelerCommandService {
     // Compare the implementation of this method with the handle method in ContractorCommandServiceImpl.java
     @Override
     public Long handle(CreateRemodelerCommand command) {
-        var remodeler = new Remodeler(command.description(), command.phone());
+        var remodeler = new Remodeler(command.description(), command.phone(), command.subscription());
         remodelerRepository.save(remodeler);
         return remodeler.getId();
     }

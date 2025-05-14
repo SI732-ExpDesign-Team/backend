@@ -10,6 +10,7 @@ import com.metasoft.restyle.platform.iam.interfaces.rest.resources.SignInResourc
 import com.metasoft.restyle.platform.iam.interfaces.rest.resources.SignUpResource;
 import com.metasoft.restyle.platform.iam.interfaces.rest.resources.UserResource;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
@@ -26,6 +28,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@TestPropertySource(properties = {
+        "spring.security.user.name=admin",
+        "spring.security.user.password=admin",
+        "jwt.secret=testSecretKeyForJwtTokenGenerationInTestEnvironment1234567890",
+        "jwt.expiration=86400000",
+        
+})
 public class AuthenticationControllerIntegrationTest {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationControllerIntegrationTest.class);
@@ -42,8 +51,8 @@ public class AuthenticationControllerIntegrationTest {
     @Autowired
     private RoleCommandService roleCommandService;
 
-    private final String SIGN_UP_URL = "/api/v1/authentication/sign-up";
-    private final String SIGN_IN_URL = "/api/v1/authentication/sign-in";
+    private final String SIGN_UP_URL = "https://restyle-web-services-cyf0axfvakcxaehd.brazilsouth-01.azurewebsites.net/api/v1/authentication/sign-up";
+    private final String SIGN_IN_URL = "https://restyle-web-services-cyf0axfvakcxaehd.brazilsouth-01.azurewebsites.net/api/v1/authentication/sign-in";
 
     @BeforeEach
     void setUp() {
@@ -89,56 +98,7 @@ public class AuthenticationControllerIntegrationTest {
         assertTrue(createdUser.roles().contains(Roles.ROLE_CONTRACTOR.name()));
     }
 
-    /*
-    @Test
-    void signUp_withDuplicateUsername_shouldReturnBadRequest() {
-        // Arrange - Create first user
-        SignUpResource firstUser = new SignUpResource(
-                "duplicateuser",
-                "password123",
-                List.of(Roles.ROLE_CONTRACTOR.name()),
-                "first@example.com",
-                "First",
-                "User",
-                "",
-                "Description",
-                "123456789",
-                "image.jpg"
-        );
 
-        ResponseEntity<UserResource> firstResponse = restTemplate.postForEntity(
-                SIGN_UP_URL,
-                firstUser,
-                UserResource.class
-        );
-
-        assertEquals(HttpStatus.CREATED, firstResponse.getStatusCode(), "First user should be created successfully");
-
-        // Arrange - Create second user with same username
-        SignUpResource duplicateUser = new SignUpResource(
-                "duplicateuser",
-                "password456",
-                List.of(Roles.ROLE_CONTRACTOR.name()),
-                "second@example.com",
-                "Second",
-                "User",
-                "",
-                "Description",
-                "987654321",
-                "image2.jpg"
-        );
-
-        // Act
-        ResponseEntity<UserResource> response = restTemplate.postForEntity(
-                SIGN_UP_URL,
-                duplicateUser,
-                UserResource.class
-        );
-
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-*/
     @Test
     void signIn_withValidCredentials_shouldReturnAuthenticatedUser() {
         // Arrange - Create user first
@@ -185,22 +145,6 @@ public class AuthenticationControllerIntegrationTest {
         assertNotNull(authenticatedUser.token(), "Token should not be null");
         assertFalse(authenticatedUser.token().isEmpty(), "Token should not be empty");
     }
-
-    /*
-    @Test
-    void signIn_withInvalidCredentials_shouldReturnNotFound() {
-        // Act - Sign in with invalid credentials
-        SignInResource signInResource = new SignInResource("nonexistentuser", "wrongpassword");
-        ResponseEntity<AuthenticatedUserResource> response = restTemplate.postForEntity(
-                SIGN_IN_URL,
-                signInResource,
-                AuthenticatedUserResource.class
-        );
-
-        // Assert
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Should return NOT_FOUND for nonexistent user");
-    }
- */
     @Test
     void signIn_withWrongPassword_shouldReturnClientError() {
         // Arrange - Create user first
@@ -237,4 +181,5 @@ public class AuthenticationControllerIntegrationTest {
         assertTrue(response.getStatusCode().is4xxClientError(),
                 "Should return a 4xx client error for wrong password");
     }
+    
 }

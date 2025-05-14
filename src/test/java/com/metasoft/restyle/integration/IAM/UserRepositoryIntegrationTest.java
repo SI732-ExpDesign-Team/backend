@@ -115,22 +115,6 @@ class UserRepositoryIntegrationTest {
         // Username should remain unchanged
         assertEquals("updateTest", updatedUser.getUsername());
     }
-/*
-    @Test
-    void shouldDeleteUser() {
-        // Arrange
-        User user = createTestUser("deleteTest");
-        user.addRole(contractorRole);
-        User savedUser = userRepository.save(user);
-
-        // Act
-        userRepository.deleteById(savedUser.getId());
-
-        // Assert
-        assertFalse(userRepository.existsById(savedUser.getId()));
-        assertFalse(userRepository.existsByUsername("deleteTest"));
-    }
-*/
     private User createTestUser(String username) {
         return new User(
                 username,

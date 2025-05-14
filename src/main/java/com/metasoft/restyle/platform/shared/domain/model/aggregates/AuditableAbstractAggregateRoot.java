@@ -26,4 +26,9 @@ public abstract class AuditableAbstractAggregateRoot <T extends AbstractAggregat
     @LastModifiedDate
     @Column(nullable = false)
     private Date updatedAt;
+
+	public Long getId() {
+		return id;
+	}
+    
 }

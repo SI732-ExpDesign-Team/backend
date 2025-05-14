@@ -4,4 +4,8 @@ import com.metasoft.restyle.platform.iam.application.internal.outboundservices.h
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public interface BCryptHashingService extends HashingService, PasswordEncoder {
+
+	String encode(String rawPassword);
+
+	boolean matches(String rawPassword, String encodedPassword);
 }

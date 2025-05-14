@@ -106,7 +106,7 @@ public class UserRegistrationToRequestFlowTest {
         Date deadline = cal.getTime();
 
         CreateProjectRequestResource req = new CreateProjectRequestResource(
-                "Test Project",
+                "Projecaat",
                 "Test Client",
                 "client@example.com",
                 "987654321",

@@ -48,38 +48,27 @@ class AuthenticationServiceTest {
     private HttpServletRequest httpRequest;
 
     private UserCommandServiceImpl userCommandService;
-    private User testUser;
 
     @BeforeEach
     void setUp() {
         userCommandService = new UserCommandServiceImpl(
                 userRepository, hashingService, tokenService, roleRepository);
-
-        // Create test user with roles
-        Role userRole = new Role(1L, Roles.ROLE_CONTRACTOR);
-        Set<Role> roles = new HashSet<>();
-        roles.add(userRole);
-
-        testUser = mock(User.class);
-        when(testUser.getId()).thenReturn(1L);
-        when(testUser.getUsername()).thenReturn("testuser");
-        when(testUser.getPassword()).thenReturn("hashed_password");
-        when(testUser.getRoles()).thenReturn(roles);
     }
 
     @Test
     void handleSignInCommand_withValidCredentials_shouldReturnUserAndToken() {
-        // Arrange
         SignInCommand command = new SignInCommand("testuser", "password123");
+
+        User testUser = mock(User.class);
+        when(testUser.getUsername()).thenReturn("testuser");
+        when(testUser.getPassword()).thenReturn("hashed_password");
 
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(testUser));
         when(hashingService.matches("password123", "hashed_password")).thenReturn(true);
         when(tokenService.generateToken("testuser")).thenReturn("valid_token");
 
-        // Act
         Optional<ImmutablePair<User, String>> result = userCommandService.handle(command);
 
-        // Assert
         assertTrue(result.isPresent());
         assertEquals(testUser, result.get().getLeft());
         assertEquals("valid_token", result.get().getRight());
@@ -90,12 +79,9 @@ class AuthenticationServiceTest {
 
     @Test
     void handleSignInCommand_withInvalidUsername_shouldThrowException() {
-        // Arrange
         SignInCommand command = new SignInCommand("nonexistentuser", "password123");
-
         when(userRepository.findByUsername("nonexistentuser")).thenReturn(Optional.empty());
 
-        // Act & Assert
         Exception exception = assertThrows(RuntimeException.class,
                 () -> userCommandService.handle(command));
 
@@ -107,13 +93,15 @@ class AuthenticationServiceTest {
 
     @Test
     void handleSignInCommand_withInvalidPassword_shouldThrowException() {
-        // Arrange
         SignInCommand command = new SignInCommand("testuser", "wrong_password");
+
+        User testUser = mock(User.class);
+      //when(testUser.getUsername()).thenReturn("testuser");
+        when(testUser.getPassword()).thenReturn("hashed_password");
 
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(testUser));
         when(hashingService.matches("wrong_password", "hashed_password")).thenReturn(false);
 
-        // Act & Assert
         Exception exception = assertThrows(RuntimeException.class,
                 () -> userCommandService.handle(command));
 
@@ -125,28 +113,22 @@ class AuthenticationServiceTest {
 
     @Test
     void tokenValidation_withValidToken_shouldReturnTrue() {
-        // Arrange
         String validToken = "valid_jwt_token";
         when(bearerTokenService.validateToken(validToken)).thenReturn(true);
 
-        // Act
         boolean result = bearerTokenService.validateToken(validToken);
 
-        // Assert
         assertTrue(result);
         verify(bearerTokenService).validateToken(validToken);
     }
 
     @Test
     void extractTokenFromRequest_shouldReturnToken() {
-        // Arrange
         String validToken = "valid_jwt_token";
         when(bearerTokenService.getBearerTokenFrom(httpRequest)).thenReturn(validToken);
 
-        // Act
         String result = bearerTokenService.getBearerTokenFrom(httpRequest);
 
-        // Assert
         assertEquals(validToken, result);
         verify(bearerTokenService).getBearerTokenFrom(httpRequest);
     }

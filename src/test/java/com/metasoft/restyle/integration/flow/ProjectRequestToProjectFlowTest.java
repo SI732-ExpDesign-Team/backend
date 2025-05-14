@@ -40,28 +40,20 @@ public class ProjectRequestToProjectFlowTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ProjectRepository projectRepository;
-
     @Autowired
     private ReviewRepository reviewRepository;
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private BearerTokenService tokenService;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     private String authToken;
 
     @BeforeEach

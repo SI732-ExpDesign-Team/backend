@@ -58,7 +58,7 @@ public class InformationControllerIntegrationTest {
         String requestBody = objectMapper.writeValueAsString(resource);
 
         // Act & Assert
-        mockMvc.perform(post("/api/v1/Contractors")
+        mockMvc.perform(post("https://restyle-web-services-cyf0axfvakcxaehd.brazilsouth-01.azurewebsites.net/api/v1/Contractors")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isCreated())
@@ -78,7 +78,7 @@ public class InformationControllerIntegrationTest {
         contractor = contractorRepository.save(contractor);
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/Contractors/{contractorId}", contractor.getId()))
+        mockMvc.perform(get("https://restyle-web-services-cyf0axfvakcxaehd.brazilsouth-01.azurewebsites.net/api/v1/Contractors/{contractorId}", contractor.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(contractor.getId()))
                 .andExpect(jsonPath("$.description").value("Get by ID contractor"))
@@ -92,7 +92,7 @@ public class InformationControllerIntegrationTest {
         contractorRepository.save(new Contractor("Second test contractor", "+2222222222"));
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/Contractors"))
+        mockMvc.perform(get("https://restyle-web-services-cyf0axfvakcxaehd.brazilsouth-01.azurewebsites.net/api/v1/Contractors"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -104,19 +104,19 @@ public class InformationControllerIntegrationTest {
     void shouldCreateRemodeler() throws Exception {
         // Arrange
         CreateRemodelerResource resource = new CreateRemodelerResource(
-                "Integration test remodeler",
+                "Integrationtestremodeler",
                 "+5556667777",
                 "PREMIUM"
         );
         String requestBody = objectMapper.writeValueAsString(resource);
 
         // Act & Assert
-        mockMvc.perform(post("/api/v1/remodelers")
+        mockMvc.perform(post("https://restyle-web-services-cyf0axfvakcxaehd.brazilsouth-01.azurewebsites.net/api/v1/remodelers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.description").value("Integration test remodeler"))
+                .andExpect(jsonPath("$.description").value("Integrationtestremodeler"))
                 .andExpect(jsonPath("$.phone").value("+5556667777"))
                 .andExpect(jsonPath("$.subscriptionType").value("PREMIUM"));
 
@@ -131,7 +131,7 @@ public class InformationControllerIntegrationTest {
         remodeler = remodelerRepository.save(remodeler);
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/remodelers/{remodelerId}", remodeler.getId()))
+        mockMvc.perform(get("https://restyle-web-services-cyf0axfvakcxaehd.brazilsouth-01.azurewebsites.net/api/v1/remodelers/{remodelerId}", remodeler.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(remodeler.getId()))
                 .andExpect(jsonPath("$.description").value("Get by ID remodeler"))
