@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -106,7 +107,7 @@ public class UserRegistrationToRequestFlowTest {
         Date deadline = cal.getTime();
 
         CreateProjectRequestResource req = new CreateProjectRequestResource(
-                "Projecaat",
+                "Projecaat" + UUID.randomUUID(),
                 "Test Client",
                 "client@example.com",
                 "987654321",

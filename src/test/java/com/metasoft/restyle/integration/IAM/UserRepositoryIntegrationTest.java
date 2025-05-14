@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +32,6 @@ class UserRepositoryIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        // Create and save role if it doesn't exist
         if (!roleRepository.existsByName(Roles.ROLE_CONTRACTOR)) {
             contractorRole = roleRepository.save(new Role(Roles.ROLE_CONTRACTOR));
         } else {
@@ -42,7 +42,9 @@ class UserRepositoryIntegrationTest {
     @Test
     void shouldSaveAndRetrieveUser() {
         // Arrange
-        User user = createTestUser("testuser");
+        String uniqueUsername = "testuser_" + UUID.randomUUID();
+        String uniqueEmail = "test_" + UUID.randomUUID() + "@example.com";
+        User user = createTestUser(uniqueUsername, uniqueEmail);
         user.addRole(contractorRole);
 
         // Act
@@ -51,8 +53,8 @@ class UserRepositoryIntegrationTest {
 
         // Assert
         assertNotNull(retrievedUser);
-        assertEquals("testuser", retrievedUser.getUsername());
-        assertEquals("test@example.com", retrievedUser.getEmail());
+        assertEquals(uniqueUsername, retrievedUser.getUsername());
+        assertEquals(uniqueEmail, retrievedUser.getEmail());
         assertEquals(1, retrievedUser.getRoles().size());
         assertTrue(retrievedUser.getRoles().stream()
                 .anyMatch(role -> role.getName().equals(Roles.ROLE_CONTRACTOR)));
@@ -61,7 +63,7 @@ class UserRepositoryIntegrationTest {
     @Test
     void shouldFindUserByUsername() {
         // Arrange
-        User user = createTestUser("findByUsernameTest");
+        User user = createTestUser("findByUsernameTest", "findByUsernameTest@example.com");
         user.addRole(contractorRole);
         userRepository.save(user);
 
@@ -85,7 +87,7 @@ class UserRepositoryIntegrationTest {
     @Test
     void shouldCheckIfUsernameExists() {
         // Arrange
-        User user = createTestUser("existsTest");
+        User user = createTestUser("existsTest", "existsTest@example.com");
         user.addRole(contractorRole);
         userRepository.save(user);
 
@@ -97,7 +99,7 @@ class UserRepositoryIntegrationTest {
     @Test
     void shouldUpdateUserData() {
         // Arrange
-        User user = createTestUser("updateTest");
+        User user = createTestUser("updateTest", "updateTest@example.com");
         user.addRole(contractorRole);
         User savedUser = userRepository.save(user);
 
@@ -112,14 +114,14 @@ class UserRepositoryIntegrationTest {
         // Assert
         assertEquals("updated@example.com", updatedUser.getEmail());
         assertEquals("Updated description", updatedUser.getDescription());
-        // Username should remain unchanged
         assertEquals("updateTest", updatedUser.getUsername());
     }
-    private User createTestUser(String username) {
+
+    private User createTestUser(String username, String email) {
         return new User(
                 username,
                 "password123",
-                "test@example.com",
+                email,
                 "Test",
                 "User",
                 "",
