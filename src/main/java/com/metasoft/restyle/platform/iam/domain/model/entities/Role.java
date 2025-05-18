@@ -15,8 +15,8 @@ import java.util.List;
  */
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PUBLIC) // Asegura visibilidad pública
+//@AllArgsConstructor
 @With
 public class Role {
     @Id
@@ -77,5 +77,29 @@ public class Role {
         }
         return roles;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Roles getName() {
+		return name;
+	}
+
+	public void setName(Roles name) {
+		this.name = name;
+	}
+
+	public Role(Long id, Roles name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
+    public Role() {}
 
 }
