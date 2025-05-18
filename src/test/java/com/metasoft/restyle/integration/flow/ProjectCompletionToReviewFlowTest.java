@@ -112,9 +112,10 @@ public class ProjectCompletionToReviewFlowTest {
 
     @Test
     void testProjectCompletionToReviewFlow() {
+    	String uniqueName = "Home Renovation " + System.currentTimeMillis();
         // 1. Create project as remodeler (business role)
         CreateProjectResource projectReq = new CreateProjectResource(
-                "Home Renovation",
+        		uniqueName,
                 "Complete home renovation project",
                 businessId.intValue(),
                 contractorId.intValue(),
